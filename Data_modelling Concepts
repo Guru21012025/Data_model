@@ -1,0 +1,137 @@
+1. Data Modelling Concepts
+
+Beginner
+Python: Create a simple DataFrame for storing employee data
+
+import pandas as pd
+
+# Create a DataFrame
+data = {
+    'EmployeeID': [101, 102, 103],
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Department': ['HR', 'Engineering', 'Marketing']
+}
+
+df = pd.DataFrame(data)
+print(df)
+
+Output:
+
+   EmployeeID     Name   Department
+0         101    Alice           HR
+1         102      Bob  Engineering
+2         103  Charlie   Marketing
+==============================================================
+SQL: Create an employee table
+
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(100),
+    Department VARCHAR(50)
+);
+==============================================================
+Intermediate
+
+Python: Merge two DataFrames based on a shared column (DepartmentID)
+
+import pandas as pd
+
+# Create Employees DataFrame
+employees = pd.DataFrame({
+    'EmployeeID': [101, 102, 103],
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'DepartmentID': [1, 2, 3]
+})
+
+# Create Departments DataFrame
+departments = pd.DataFrame({
+    'DepartmentID': [1, 2, 3],
+    'DepartmentName': ['HR', 'Engineering', 'Marketing']
+})
+
+# Merge the DataFrames on DepartmentID
+merged_df = pd.merge(employees, departments, on='DepartmentID')
+print(merged_df)
+
+Output:
+
+   EmployeeID     Name  DepartmentID DepartmentName
+0         101    Alice             1              HR
+1         102      Bob             2    Engineering
+2         103  Charlie             3       Marketing
+==============================================================
+SQL: Join Employees and Departments tables
+
+SELECT e.EmployeeName, d.DepartmentName
+FROM Employees e
+JOIN Departments d ON e.DepartmentID = d.DepartmentID;
+
+==============================================================
+Advanced
+Python: Relational data model with multiple DataFrames
+
+
+import pandas as pd
+
+# Employees DataFrame
+employees = pd.DataFrame({
+    'EmployeeID': [101, 102, 103],
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'DepartmentID': [1, 2, 3]
+})
+
+# Departments DataFrame
+departments = pd.DataFrame({
+    'DepartmentID': [1, 2, 3],
+    'DepartmentName': ['HR', 'Engineering', 'Marketing']
+})
+
+# Salaries DataFrame
+salaries = pd.DataFrame({
+    'EmployeeID': [101, 102, 103],
+    'Salary': [50000, 60000, 55000]
+})
+
+# Merge all DataFrames
+result = pd.merge(employees, departments, on='DepartmentID')
+result = pd.merge(result, salaries, on='EmployeeID')
+
+print(result)
+
+Output:
+
+   EmployeeID     Name  DepartmentID DepartmentName  Salary
+0         101    Alice             1              HR   50000
+1         102      Bob             2    Engineering   60000
+2         103  Charlie             3       Marketing   55000
+
+==============================================================
+SQL: Design a normalized database
+
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName VARCHAR(100),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+CREATE TABLE Salaries (
+    EmployeeID INT,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+==============================================================
+SQL Query: List employees with department and salary
+
+
+SELECT e.EmployeeName, d.DepartmentName, s.Salary
+FROM Employees e
+JOIN Departments d ON e.DepartmentID = d.DepartmentID
+JOIN Salaries s ON e.EmployeeID = s.EmployeeID;
