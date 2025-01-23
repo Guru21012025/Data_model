@@ -1,0 +1,220 @@
+2. DBMS and RDBMS
+
+Beginner:
+Python: How do you connect to a SQLite database and create a table for storing student records?
+Python Code:
+
+import sqlite3
+
+# Connect to SQLite database (it will create the database file if it doesn't exist)
+conn = sqlite3.connect('student_records.db')
+
+# Create a cursor object to execute SQL queries
+cursor = conn.cursor()
+
+# Create a table for student records
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    grade TEXT NOT NULL
+)
+''')
+
+# Commit the changes and close the connection
+conn.commit()
+conn.close()
+
+print("Table created successfully.")
+
+Output:
+
+Table created successfully.
+===================================================================================
+SQL: What are the differences between a DBMS and an RDBMS? What are the advantages of using an RDBMS over a DBMS?
+
+DBMS (Database Management System):
+
+A DBMS is a software system that manages databases. It allows users to store, modify, and retrieve data from databases.
+It does not necessarily enforce relationships between data entities.
+Examples: File systems, XML databases.
+RDBMS (Relational Database Management System):
+
+RDBMS is a type of DBMS that stores data in the form of tables (relations) and enforces the relationships between tables using keys (primary and foreign keys).
+It supports SQL (Structured Query Language) for data management.
+Examples: MySQL, PostgreSQL, SQLite, Oracle Database.
+
+Advantages of RDBMS over DBMS:
+
+Data Integrity: RDBMS enforces integrity constraints (e.g., primary and foreign keys) that ensure accuracy and consistency.
+Data Redundancy Elimination: RDBMS helps in reducing data redundancy due to its structured nature of relationships.
+Flexibility: Allows complex querying through SQL.
+Security: Provides better data security and user access control.
+Scalability: RDBMS systems can efficiently handle large amounts of data through normalization.
+
+#################################################################################################
+
+Intermediate:
+Python: How do you perform CRUD operations on an SQLite database (Insert, Update, Delete, Select)?
+Python Code:
+
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect('student_records.db')
+cursor = conn.cursor()
+
+# CREATE: Insert a new record
+cursor.execute("INSERT INTO students (name, age, grade) VALUES ('John Doe', 20, 'A')")
+cursor.execute("INSERT INTO students (name, age, grade) VALUES ('Jane Smith', 22, 'B')")
+conn.commit()
+
+# READ: Retrieve all records
+cursor.execute("SELECT * FROM students")
+students = cursor.fetchall()
+print("Student Records:")
+for student in students:
+    print(student)
+
+# UPDATE: Update a student's grade
+cursor.execute("UPDATE students SET grade = 'A+' WHERE name = 'Jane Smith'")
+conn.commit()
+
+# DELETE: Delete a student record
+cursor.execute("DELETE FROM students WHERE name = 'John Doe'")
+conn.commit()
+
+# Verify the changes
+cursor.execute("SELECT * FROM students")
+updated_students = cursor.fetchall()
+print("\nUpdated Student Records:")
+for student in updated_students:
+    print(student)
+
+# Close the connection
+conn.close()
+
+Output:
+
+Student Records:
+(1, 'John Doe', 20, 'A')
+(2, 'Jane Smith', 22, 'B')
+
+Updated Student Records:
+(2, 'Jane Smith', 22, 'A+')
+===================================================================================
+SQL: Write SQL queries for inserting data into a table, updating records, and selecting records based on a condition.
+Insert Data:
+
+INSERT INTO students (name, age, grade) 
+VALUES ('Alice Green', 23, 'B');
+Update Records:
+sql
+Copy
+UPDATE students
+SET grade = 'A'
+WHERE name = 'Alice Green';
+Select Records Based on a Condition:
+
+SELECT * FROM students
+WHERE grade = 'A';
+
+#################################################################################################
+
+Advanced:
+Python: How do you use the SQLAlchemy ORM in Python to interact with a relational database and perform complex operations?
+Python Code using SQLAlchemy ORM:
+
+
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# Define the base class for the ORM
+Base = declarative_base()
+
+# Define the Student class representing the 'students' table
+class Student(Base):
+    __tablename__ = 'students'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    age = Column(Integer, nullable=False)
+    grade = Column(String, nullable=False)
+
+# Create an SQLite engine and session
+engine = create_engine('sqlite:///student_records.db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Create the table in the database
+Base.metadata.create_all(engine)
+
+# Perform CRUD operations using SQLAlchemy ORM
+
+# CREATE: Insert a new student record
+new_student = Student(name='Bob White', age=21, grade='C')
+session.add(new_student)
+session.commit()
+
+# READ: Query all students
+students = session.query(Student).all()
+print("Student Records using SQLAlchemy ORM:")
+for student in students:
+    print(f'{student.id} | {student.name} | {student.age} | {student.grade}')
+
+# UPDATE: Update a student's grade
+student_to_update = session.query(Student).filter_by(name='Bob White').first()
+student_to_update.grade = 'B'
+session.commit()
+
+# DELETE: Delete a student record
+student_to_delete = session.query(Student).filter_by(name='Bob White').first()
+session.delete(student_to_delete)
+session.commit()
+
+# Verify the changes
+updated_students = session.query(Student).all()
+print("\nUpdated Student Records using SQLAlchemy ORM:")
+for student in updated_students:
+    print(f'{student.id} | {student.name} | {student.age} | {student.grade}')
+
+# Close the session
+session.close()
+
+
+Output:
+
+Student Records using SQLAlchemy ORM:
+1 | Alice Green | 23 | B
+2 | Jane Smith | 22 | A+
+3 | Bob White | 21 | C
+
+Updated Student Records using SQLAlchemy ORM:
+1 | Alice Green | 23 | B
+2 | Jane Smith | 22 | A+
+===================================================================================
+
+SQL: Write an SQL query that demonstrates the use of JOIN, GROUP BY, and HAVING clauses to retrieve aggregated data from related tables.
+SQL Query Example:
+
+-- Assuming we have two tables: students and courses
+-- Table: students (id, name, age, grade)
+-- Table: courses (id, student_id, course_name)
+
+SELECT 
+    s.name, 
+    COUNT(c.course_name) AS course_count
+FROM 
+    students s
+JOIN 
+    courses c ON s.id = c.student_id
+GROUP BY 
+    s.id
+HAVING 
+    COUNT(c.course_name) > 2;
+
+Explanation:
+JOIN: We join the students and courses tables on the student_id field.
+GROUP BY: We group the results by the student id.
+HAVING: We only show students who are enrolled in more than 2 courses.
