@@ -1,0 +1,181 @@
+Beginner Level:
+
+Python: How to perform basic CRUD operations (Create, Read, Update, Delete) on a database table?
+To perform CRUD operations in Python, we commonly use the sqlite3 library, which is built into Python. Below are examples of each operation:
+
+Create: Insert data into a table
+Read: Query data from a table
+Update: Modify existing data
+Delete: Remove data from a table
+Here's an example with Python and SQLite:
+
+python:
+
+import sqlite3
+
+# Connect to the database (or create it if it doesn't exist)
+conn = sqlite3.connect('example.db')
+cursor = conn.cursor()
+
+# Create table (if it doesn't exist)
+cursor.execute('''CREATE TABLE IF NOT EXISTS Students
+                  (ID INTEGER PRIMARY KEY, Name TEXT, Age INTEGER)''')
+
+# Create: Insert a new record
+cursor.execute("INSERT INTO Students (Name, Age) VALUES (?, ?)", ('John Doe', 22))
+conn.commit()  # Commit the transaction
+
+# Read: Select all records
+cursor.execute("SELECT * FROM Students")
+records = cursor.fetchall()
+print("All Students:", records)
+
+# Update: Update a record
+cursor.execute("UPDATE Students SET Age = ? WHERE Name = ?", (23, 'John Doe'))
+conn.commit()
+
+# Delete: Delete a record
+cursor.execute("DELETE FROM Students WHERE Name = ?", ('John Doe',))
+conn.commit()
+
+# Close the connection
+conn.close()
+
+=============================================================================================
+
+SQL: Write SQL queries for inserting, selecting, updating, and deleting data in a table.
+Here are the basic SQL queries:
+
+Create: Insert data into a table:
+
+sql:
+
+INSERT INTO Students (Name, Age) VALUES ('John Doe', 22);
+Read: Select data from the table:
+
+sql:
+
+SELECT * FROM Students;
+Update: Update existing data:
+
+sql
+
+UPDATE Students SET Age = 23 WHERE Name = 'John Doe';
+Delete: Delete a record:
+
+sql
+
+DELETE FROM Students WHERE Name = 'John Doe';
+
+#######################################################################################################
+
+Intermediate Level:
+
+Python: How to fetch records with a filtering condition (e.g., students older than 21)?
+To filter records in Python, you can modify the SELECT query to include a WHERE clause that specifies the condition.
+
+Example with Python and SQLite:
+
+python:
+
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect('example.db')
+cursor = conn.cursor()
+
+# Fetch students older than 21
+cursor.execute("SELECT * FROM Students WHERE Age > 21")
+filtered_records = cursor.fetchall()
+print("Students older than 21:", filtered_records)
+
+# Close the connection
+conn.close()
+
+=============================================================================================
+
+SQL: Write a query that filters records from the Students table where the Age is greater than 21.
+SQL query to filter students older than 21:
+
+sql
+
+SELECT * FROM Students WHERE Age > 21;
+
+################################################################################################################
+
+Advanced Level:
+
+Python: How to implement a transaction that inserts multiple records and handles rollbacks in case of an error?
+To manage transactions, you need to use a context where multiple operations are performed as a single unit. If an error occurs during any operation, the transaction can be rolled back to ensure the database remains in a consistent state.
+
+Here’s how you can do this with Python and SQLite:
+
+python
+
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect('example.db')
+cursor = conn.cursor()
+
+# Start the transaction
+try:
+    # Begin a transaction
+    cursor.execute("BEGIN TRANSACTION;")
+    
+    # Insert multiple records
+    cursor.execute("INSERT INTO Students (Name, Age) VALUES (?, ?)", ('Alice', 25))
+    cursor.execute("INSERT INTO Students (Name, Age) VALUES (?, ?)", ('Bob', 30))
+    
+    # Commit the transaction if all insertions are successful
+    conn.commit()
+    print("Transaction committed successfully.")
+    
+except sqlite3.Error as e:
+    # Rollback in case of error
+    conn.rollback()
+    print("Transaction failed and rolled back:", e)
+
+# Close the connection
+conn.close()
+
+=============================================================================================
+
+SQL: Write an SQL transaction to insert data into multiple tables and ensure that changes are only committed if all operations succeed.
+Here’s an SQL example where you perform multiple inserts, and commit the transaction if all operations succeed:
+
+sql
+
+BEGIN TRANSACTION;
+
+-- Insert data into the Students table
+INSERT INTO Students (Name, Age) VALUES ('Alice', 25);
+
+-- Insert data into the Courses table
+INSERT INTO Courses (CourseName) VALUES ('Python Programming');
+
+-- Commit if everything is fine
+COMMIT;
+
+-- If there’s an error, you can roll back
+-- ROLLBACK;
+In this case, if anything goes wrong during one of the inserts, you would execute a ROLLBACK instead of COMMIT to undo the changes.
+############################################################################################################
+Libraries to Install:
+If you are using SQLite, the library sqlite3 is already included with Python. However, if you want to work with other databases like MySQL or PostgreSQL, you need to install the appropriate libraries:
+
+MySQL: Install mysql-connector-python
+
+bash
+
+pip install mysql-connector-python
+PostgreSQL: Install psycopg2
+
+bash
+
+pip install psycopg2
+SQLAlchemy: For a more advanced ORM, you can install SQLAlchemy, which provides a higher-level abstraction for working with databases.
+
+bash
+
+pip install sqlalchemy
