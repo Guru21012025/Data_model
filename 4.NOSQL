@@ -1,0 +1,266 @@
+Beginner: Inserting Data into a MongoDB Collection
+Libraries to Install: "pymongo" 
+
+To insert data into a MongoDB collection using Python, you'll need the pymongo library. Here's how you can do it:
+
+Install the pymongo library if you don't have it yet:
+
+pip install pymongo
+Python Code to Insert Data:
+
+python:
+
+from pymongo import MongoClient
+
+# Connect to MongoDB (assuming MongoDB is running locally on default port)
+client = MongoClient('mongodb://localhost:27017/')
+
+# Select database and collection
+db = client['mydatabase']
+collection = db['customers']
+
+# Data to insert
+data = {
+    'name': 'John Doe',
+    'address': '123 Main St',
+    'city': 'New York',
+    'age': 30
+}
+
+# Insert the data into the collection
+result = collection.insert_one(data)
+
+print(f"Data inserted with ID: {result.inserted_id}")
+
+What this does:
+
+Connects to MongoDB running locally.
+Selects a database (mydatabase) and collection (customers).
+Inserts a single document into the collection.
+Prints the inserted document's ID.
+
+=============================================================================================
+
+NoSQL Query: Insert Data into MongoDB
+Here's the equivalent MongoDB query to insert data into a collection using MongoDB's shell:
+
+use mydatabase;
+db.customers.insertOne({
+   "name": "John Doe",
+   "address": "123 Main St",
+   "city": "New York",
+   "age": 30
+});
+This will insert the same document as shown above into the customers collection.
+
+####################################################################################################
+
+Intermediate: Querying MongoDB to Retrieve All Records
+Python Code to Retrieve All Records:
+
+from pymongo import MongoClient
+
+# Connect to MongoDB (assuming MongoDB is running locally on default port)
+client = MongoClient('mongodb://localhost:27017/')
+
+# Select database and collection
+db = client['mydatabase']
+collection = db['customers']
+
+# Retrieve all records from the collection
+all_records = collection.find()
+
+# Print the records
+for record in all_records:
+    print(record)
+
+What this does:
+
+Connects to MongoDB and selects the customers collection.
+Uses the find() method to retrieve all documents from the collection.
+Iterates through and prints each document.
+
+=============================================================================================
+
+NoSQL Query: Retrieve All Documents from a MongoDB Collection
+
+Equivalent MongoDB query:
+
+use mydatabase;
+db.customers.find();
+This will fetch all documents from the customers collection.
+
+################################################################################################
+
+Advanced: Performing Advanced Queries (Aggregation, Filtering, Update Multiple Records)
+
+1. Aggregation Example:
+Suppose you want to find the average age of customers grouped by city.
+
+Python Code:
+
+from pymongo import MongoClient
+
+# Connect to MongoDB
+client = MongoClient('mongodb://localhost:27017/')
+
+# Select database and collection
+db = client['mydatabase']
+collection = db['customers']
+
+# Aggregation query to get average age by city
+pipeline = [
+    {
+        "$group": {
+            "_id": "$city",
+            "average_age": {"$avg": "$age"}
+        }
+    }
+]
+
+# Run aggregation query
+result = collection.aggregate(pipeline)
+
+# Print result
+for city in result:
+    print(f"City: {city['_id']}, Average Age: {city['average_age']}")
+
+Nosql:
+
+MongoDB Query for Aggregation:
+
+use mydatabase;
+db.customers.aggregate([
+    {
+        $group: {
+            _id: "$city",
+            average_age: { $avg: "$age" }
+        }
+    }
+]);
+
+2. Filtering Example:
+To find customers from a specific city (e.g., "New York"):
+
+Python Code:
+
+from pymongo import MongoClient
+
+# Connect to MongoDB
+client = MongoClient('mongodb://localhost:27017/')
+
+# Select database and collection
+db = client['mydatabase']
+collection = db['customers']
+
+# Filter query to find customers from New York
+filter_query = {'city': 'New York'}
+customers_in_ny = collection.find(filter_query)
+
+# Print the results
+for customer in customers_in_ny:
+    print(customer)
+NOsql:
+
+MongoDB Query for Filtering:
+
+use mydatabase;
+db.customers.find({ "city": "New York" });
+
+3. Update Multiple Records Example:
+To update all customers' age to 35 where their city is "New York":
+
+Python Code:
+
+from pymongo import MongoClient
+
+# Connect to MongoDB
+client = MongoClient('mongodb://localhost:27017/')
+
+# Select database and collection
+db = client['mydatabase']
+collection = db['customers']
+
+# Update multiple records
+update_query = {'city': 'New York'}
+new_values = {"$set": {'age': 35}}
+
+result = collection.update_many(update_query, new_values)
+
+print(f"{result.modified_count} records updated.")
+
+=============================================================================================
+Nosql:
+
+ Query: Find Customers from a Certain City
+Suppose you have a collection of customers, and you want to find all customers from the city "New York."
+
+MongoDB Query:
+
+use mydatabase;
+db.customers.find({ "city": "New York" });
+Explanation: This query will find all documents in the customers collection where the city field is "New York".
+
+Example Output:
+
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f2b"), "name": "John Doe", "address": "123 Main St", "city": "New York", "age": 30 }
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f3c"), "name": "Jane Smith", "address": "456 Oak St", "city": "New York", "age": 25 }
+2. Query: Find Customers with Sales Above a Certain Value
+Now, let's assume you have a sales field in each document and want to find all customers whose sales exceed $1000.
+
+MongoDB Query:
+
+use mydatabase;
+db.customers.find({ "sales": { "$gt": 1000 } });
+Explanation: This query will find all documents where the sales field is greater than ($gt) 1000.
+
+Example Output:
+
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f5a"), "name": "Emily Davis", "address": "789 Pine St", "city": "San Francisco", "sales": 1500, "age": 28 }
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f6b"), "name": "Michael Brown", "address": "123 Elm St", "city": "Los Angeles", "sales": 2000, "age": 35 }
+Combining Conditions: Find Customers from a Certain City and with Sales Above a Certain Value
+You can combine conditions using the $and operator. For example, to find customers from "New York" who have sales greater than $1000:
+
+MongoDB Query:
+
+use mydatabase;
+db.customers.find({
+    "$and": [
+        { "city": "New York" },
+        { "sales": { "$gt": 1000 } }
+    ]
+});
+Explanation: This query will return customers who are from "New York" and have sales greater than 1000.
+
+Example Output:
+
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f2b"), "name": "John Doe", "address": "123 Main St", "city": "New York", "sales": 1200, "age": 30 }
+3. Query: Find Customers Based on Multiple Conditions
+You can also use logical operators like $or, $lt (less than), $gte (greater than or equal to), etc. Here's an example to find customers who are either from "New York" or have sales above $1000.
+
+MongoDB Query:
+
+use mydatabase;
+db.customers.find({
+    "$or": [
+        { "city": "New York" },
+        { "sales": { "$gt": 1000 } }
+    ]
+});
+Explanation: This query will return customers who are either from "New York" or have sales greater than 1000.
+
+Example Output:
+
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f2b"), "name": "John Doe", "address": "123 Main St", "city": "New York", "sales": 1200, "age": 30 }
+{ "_id": ObjectId("60c72b2f9b1d8c4a4f7f2f5a"), "name": "Emily Davis", "address": "789 Pine St", "c
+
+##############################
+
+Summary of Libraries
+To interact with MongoDB using Python, you'll need the following library:
+
+pymongo: Used to interact with MongoDB from Python.
+You can install it via pip:
+
+pip install pymongo
+############################
