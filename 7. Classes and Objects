@@ -1,0 +1,160 @@
+Beginner:
+1. How do you create a simple class in Python with attributes like name and age?
+
+In Python, a class is defined using the class keyword. You define attributes inside the __init__ method (the constructor), which is called when you create an object from the class.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+# Creating an object of the class
+person1 = Person("Alice", 30)
+
+# Accessing attributes
+print(person1.name)  # Output: Alice
+print(person1.age)   # Output: 30
+
+Explanation:
+__init__(self, name, age) is the constructor method that initializes the object's attributes.
+person1 = Person("Alice", 30) creates an instance of the Person class with the name "Alice" and age 30.
+person1.name and person1.age access the attributes of the object.
+
+=====================================================================================================================
+
+2. How do you create an object of a class and access its attributes in Python?
+
+To create an object, you call the class with arguments passed to the __init__ method. You can access the object's attributes using the dot (.) operator.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+# Creating an object of the class
+person1 = Person("Bob", 25)
+
+# Accessing attributes
+print(person1.name)  # Output: Bob
+print(person1.age)   # Output: 25
+
+Explanation:
+The object person1 is created by passing "Bob" and 25 to the constructor.
+The attributes name and age are accessed using dot notation: person1.name and person1.age.
+
+######################################################################################################################
+
+Intermediate:
+3. How do you define methods inside a class in Python that modify the state of an object?
+
+Methods are defined inside the class just like the constructor. They can modify the state (attributes) of the object by using the self keyword.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def celebrate_birthday(self):
+        self.age += 1
+        print(f"Happy Birthday {self.name}! You are now {self.age} years old.")
+
+# Creating an object
+person1 = Person("Charlie", 22)
+
+# Calling a method that modifies the state
+person1.celebrate_birthday()  # Output: Happy Birthday Charlie! You are now 23 years old.
+
+Explanation:
+celebrate_birthday() is a method that modifies the age attribute by increasing it by 1.
+When person1.celebrate_birthday() is called, it prints a message and updates the age attribute of person1.
+
+===================================================================================================================================
+
+4. How do you write a Python class Person with a method to display the person's details?
+
+You can define a method to display the details of an object by using the attributes inside the class.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def display_details(self):
+        print(f"Name: {self.name}, Age: {self.age}")
+
+# Creating an object
+person1 = Person("David", 40)
+
+# Calling the method to display details
+person1.display_details()  # Output: Name: David, Age: 40
+
+Explanation:
+display_details() is a method that prints the name and age of the person using the object's attributes.
+The method is called on person1 to display "David" and 40.
+
+#####################################################################################################################
+
+Advanced:
+5. How do you implement inheritance in Python where a Student class inherits from a Person class?
+
+Inheritance allows you to create a new class (the subclass) that inherits attributes and methods from an existing class (the superclass). The subclass can also override methods or add new ones.
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def display_details(self):
+        print(f"Name: {self.name}, Age: {self.age}")
+
+# Subclass inherits from Person
+class Student(Person):
+    def __init__(self, name, age, student_id):
+        super().__init__(name, age)  # Calling the parent constructor
+        self.student_id = student_id
+
+    def display_student_details(self):
+        self.display_details()  # Call the method from the parent class
+        print(f"Student ID: {self.student_id}")
+
+# Creating a Student object
+student1 = Student("Eve", 20, "S12345")
+
+# Calling the method
+student1.display_student_details()
+
+# Output:
+# Name: Eve, Age: 20
+# Student ID: S12345
+
+Explanation:
+The Student class inherits from the Person class.
+super().__init__(name, age) is used to call the constructor of the parent (Person) class.
+The method display_student_details() displays both the inherited details and the student_id specific to Student.
+
+=====================================================================================================================================
+
+6. How do you implement polymorphism in Python using method overriding between base and derived classes?
+
+Polymorphism allows a subclass to override methods of the parent class to provide a specific implementation. This is known as method overriding.
+
+class Person:
+    def speak(self):
+        print("Person is speaking")
+
+class Student(Person):
+    def speak(self):  # Overriding the speak method
+        print("Student is speaking")
+
+# Creating objects
+person = Person()
+student = Student()
+
+# Calling the overridden method
+person.speak()   # Output: Person is speaking
+student.speak()  # Output: Student is speaking
+
+Explanation:
+The Person class defines a speak() method.
+The Student class overrides the speak() method to provide its own version.
+When person.speak() is called, it uses the method in the Person class. When student.speak() is called, it uses the overridden method in the Student class.
