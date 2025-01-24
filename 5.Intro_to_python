@@ -1,0 +1,115 @@
+1. Beginner Level
+a. Print "Hello, World!" in Python
+Code:
+print("Hello, World!")
+
+Explanation:
+What to do: This is the most basic program in Python. The print() function displays whatever is inside the parentheses on the screen.
+Libraries/Steps: No additional libraries are needed for this simple task. Just run this code in any Python interpreter or IDE.
+
+Output:
+Hello, World!
+
+============================================================================================================
+
+b. Assign Values to Variables in Python
+Code:
+x = 5
+y = "Hello"
+z = 3.14
+print(x, y, z)
+
+Explanation:
+What to do: You can assign values to variables in Python using the = operator. You can assign values of different types (integers, strings, floats, etc.).
+Libraries/Steps: No libraries needed here either. You simply need to assign a value to a variable.
+
+Output:
+5 Hello 3.14
+
+##############################################################################################################
+
+2. Intermediate Level
+a. Accept User Input and Use It in a Python Program
+
+Code:
+name = input("Enter your name: ")
+age = int(input("Enter your age: "))
+print(f"Hello, {name}! You are {age} years old.")
+
+Explanation:
+What to do: The input() function accepts user input as a string. If you need a different data type (like integer), you must convert it using the int() or float() functions.
+Libraries/Steps: No additional libraries required. You just need to ensure that the user input is handled properly (like converting strings to integers where necessary).
+
+Example Output:
+Enter your name: Alice
+Enter your age: 25
+Hello, Alice! You are 25 years old.
+
+==================================================================================================================
+
+b. Write a Function that Accepts Two Numbers as Input and Returns Their Sum
+Code:
+def add_numbers(num1, num2):
+    return num1 + num2
+
+# Accept user input
+number1 = float(input("Enter the first number: "))
+number2 = float(input("Enter the second number: "))
+
+# Call the function
+result = add_numbers(number1, number2)
+print(f"The sum is: {result}")
+
+Explanation:
+What to do: Define a function using def. You can pass numbers as parameters and perform operations on them. The input() function is used to get numbers from the user.
+Libraries/Steps: The float() function is used to convert user input into floating point numbers for addition.
+
+Example Output (if user enters "5" and "7"):
+Enter the first number: 5
+Enter the second number: 7
+The sum is: 12.0
+
+###################################################################################################################
+
+3. Advanced Level
+a. Handle Exceptions in Python Using Try and Except Blocks
+Code:
+    num1 = int(input("Enter the first number: "))
+    num2 = int(input("Enter the second number: "))
+    result = num1 / num2
+    print(f"The result is: {result}")
+except ValueError:
+    print("Please enter valid integers.")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+
+Explanation:
+What to do: The try block contains the code that might cause an exception. The except block catches specific exceptions like ValueError (invalid input) or ZeroDivisionError (attempt to divide by zero).
+Libraries/Steps: Python has built-in exception handling mechanisms. You don’t need additional libraries, but you should always be prepared to handle possible errors when dealing with user input or operations that can fail.
+
+Example Output (if user enters invalid input or tries to divide by zero):
+Enter the first number: 10
+Enter the second number: 0
+Cannot divide by zero!
+
+====================================================================================================================
+
+b. Use List Comprehensions to Filter and Transform Data
+Code:
+# Create a list of numbers
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# List comprehension to filter even numbers and square them
+squared_even_numbers = [num**2 for num in numbers if num % 2 == 0]
+
+print(squared_even_numbers)
+
+Explanation:
+What to do: List comprehensions provide a concise way to create lists by applying a condition (like filtering even numbers) and performing operations (like squaring them) all in one line.
+Libraries/Steps: No external libraries are required. The algorithm includes:
+Iterate over the numbers list.
+Check if the number is even (num % 2 == 0).
+Square the number and add it to the new list.
+
+Output:
+[4, 16, 36, 64, 100]
