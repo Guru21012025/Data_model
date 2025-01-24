@@ -1,0 +1,131 @@
+Beginner:
+1. How do you define a function in Python that takes two arguments and returns their sum?
+
+You can define a function using the def keyword, followed by the function name and parameters. Here's an example:
+
+def add_numbers(a, b):
+    return a + b
+
+# Calling the function and passing two arguments
+result = add_numbers(3, 5)
+print(result)  
+
+# Output: 8
+
+Explanation:
+def add_numbers(a, b): is the function definition.
+return a + b returns the sum of the two arguments.
+The function is called with arguments 3 and 5, and the result (8) is printed.
+
+====================================================================================================================
+
+2. How do you call a function and pass arguments to it in Python?
+
+You call a function by writing its name and passing the arguments inside parentheses.
+
+def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Alice")  
+
+# Output: Hello, Alice!
+
+Explanation:
+The function greet is defined to take one argument name.
+It is called with the argument "Alice", and it prints "Hello, Alice!".
+
+####################################################################################################################
+
+Intermediate:
+3. How do you define a function in Python with default values for some parameters?
+
+You can assign default values to parameters in the function definition. Here's an example:
+
+def greet(name="Guest"):
+    print(f"Hello, {name}!")
+
+greet("Bob")  # Output: Hello, Bob!
+greet()       # Output: Hello, Guest!
+
+Explanation:
+The name parameter has a default value of "Guest".
+If no argument is passed, it uses "Guest". Otherwise, it uses the provided argument.
+
+=====================================================================================================================
+
+4. How do you write a function to calculate the factorial of a number using recursion?
+
+A recursive function calls itself. Here's an example of calculating the factorial:
+
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+# Calling the function
+result = factorial(5)
+print(result)  
+
+# Output: 120
+
+Explanation:
+The function factorial calculates n!.
+If n is 0 or 1, it returns 1 (base case).
+Otherwise, it recursively multiplies n by the factorial of n-1.
+
+#####################################################################################################################
+
+Advanced:
+5. How do you create a function that accepts an arbitrary number of arguments (*args) and keyword arguments (**kwargs) in Python?
+
+You can use *args for a variable number of positional arguments and **kwargs for a variable number of keyword arguments.
+
+def display_info(*args, **kwargs):
+    print("Positional arguments:", args)
+    print("Keyword arguments:", kwargs)
+
+# Calling the function with arbitrary arguments
+display_info(1, 2, 3, name="Alice", age=25)
+
+# Output:
+# Positional arguments: (1, 2, 3)
+# Keyword arguments: {'name': 'Alice', 'age': 25}
+
+Explanation:
+*args collects extra positional arguments as a tuple.
+**kwargs collects extra keyword arguments as a dictionary.
+The function prints the collected arguments and keyword arguments.
+
+==========================================================================================================================
+
+6. How do you implement a decorator function in Python to modify the behavior of another function?
+
+A decorator is a function that takes another function as an argument and modifies or extends its behavior.
+
+Here's an example of a simple decorator:
+
+def decorator(func):
+    def wrapper():
+        print("Before the function is called.")
+        func()
+        print("After the function is called.")
+    return wrapper
+
+@decorator
+def say_hello():
+    print("Hello!")
+
+# Calling the decorated function
+say_hello()
+
+# Output:
+# Before the function is called.
+# Hello!
+# After the function is called.
+
+Explanation:
+decorator is a function that accepts func (another function) as an argument.
+It defines wrapper, which first prints a message, calls func(), and then prints another message.
+The @decorator syntax applies the decorator to the say_hello function.
+When say_hello() is called, it triggers the behavior defined in the decorator.
