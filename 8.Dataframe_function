@@ -1,0 +1,155 @@
+Beginner:
+1. How do you create a pandas DataFrame from a dictionary in Python?
+
+You can create a DataFrame using the pd.DataFrame() constructor and pass a dictionary where keys are column names and values are lists of data.
+
+import pandas as pd
+
+# Creating a dictionary
+data = {'Name': ['Alice', 'Bob', 'Charlie'],
+        'Age': [25, 30, 35],
+        'City': ['New York', 'Los Angeles', 'Chicago']}
+
+# Creating a DataFrame
+df = pd.DataFrame(data)
+
+# Displaying the DataFrame
+print(df)
+
+Output:
+
+      Name  Age         City
+0    Alice   25     New York
+1      Bob   30  Los Angeles
+2  Charlie   35      Chicago
+
+Explanation:
+The dictionary data has columns (Name, Age, City), and each key is associated with a list of values.
+pd.DataFrame(data) converts this dictionary into a pandas DataFrame where each key becomes a column.
+
+====================================================================================================================
+
+2. How do you view the first few rows of a pandas DataFrame?
+
+You can use the .head() method to view the first few rows of the DataFrame. By default, it returns the first 5 rows.
+
+# View the first 5 rows
+print(df.head())
+
+# To view the first 2 rows, you can pass an argument
+print(df.head(2))
+
+Output (for the first 5 rows):
+      Name  Age         City
+0    Alice   25     New York
+1      Bob   30  Los Angeles
+2  Charlie   35      Chicago
+
+Explanation:
+df.head() shows the first 5 rows of the DataFrame by default.
+You can specify a different number of rows to view by passing an integer, like df.head(2).
+
+#####################################################################################################################
+
+Intermediate:
+3. How do you filter rows in a pandas DataFrame based on a condition (e.g., select all rows where age is greater than 30)?
+
+You can filter rows using boolean indexing by applying a condition to the DataFrame.
+
+# Filter rows where Age is greater than 30
+filtered_df = df[df['Age'] > 30]
+
+# Display the filtered DataFrame
+print(filtered_df)
+
+Output:
+
+      Name  Age     City
+2  Charlie   35  Chicago
+
+Explanation:
+df['Age'] > 30 creates a boolean series (True or False for each row) based on the condition.
+df[df['Age'] > 30] applies this condition to the DataFrame, returning only rows where the condition is True.
+
+==========================================================================================================================
+
+4. How do you select specific columns from a pandas DataFrame?
+
+You can select specific columns by passing a list of column names to the DataFrame.
+
+# Select specific columns: 'Name' and 'City'
+selected_columns = df[['Name', 'City']]
+
+# Display the selected columns
+print(selected_columns)
+
+Output:
+      Name         City
+0    Alice     New York
+1      Bob  Los Angeles
+2  Charlie      Chicago
+
+Explanation:
+df[['Name', 'City']] selects the columns 'Name' and 'City' from the DataFrame.
+The result is a new DataFrame with just the selected columns.
+
+#########################################################################################################################
+
+Advanced:
+5. How do you merge two pandas DataFrames on a common column and handle missing data?
+
+You can use the merge() function to merge two DataFrames on a common column. You can also specify how to handle missing data (e.g., left, right, outer, inner join).
+
+# Sample DataFrames
+df1 = pd.DataFrame({'ID': [1, 2, 3],
+                    'Name': ['Alice', 'Bob', 'Charlie']})
+
+df2 = pd.DataFrame({'ID': [2, 3, 4],
+                    'City': ['Los Angeles', 'Chicago', 'Houston']})
+
+# Merging the DataFrames on the 'ID' column
+merged_df = pd.merge(df1, df2, on='ID', how='outer')
+
+# Display the merged DataFrame
+print(merged_df)
+
+Output:
+
+   ID     Name         City
+0   1    Alice          NaN
+1   2      Bob  Los Angeles
+2   3  Charlie      Chicago
+3   4      NaN      Houston
+
+Explanation:
+pd.merge(df1, df2, on='ID', how='outer') merges df1 and df2 on the 'ID' column.
+The how='outer' argument specifies that all rows from both DataFrames are kept, and missing data is filled with NaN.
+You can also use how='inner' to keep only the rows with matching 'ID' values.
+
+============================================================================================================================
+
+6. How do you group data by a column in pandas and perform aggregation functions like sum or mean?
+
+You can use the groupby() function to group data by one or more columns and then apply aggregation functions like sum(), mean(), etc.
+
+# Sample DataFrame
+df = pd.DataFrame({'Category': ['A', 'B', 'A', 'B', 'A', 'B'],
+                   'Value': [10, 20, 30, 40, 50, 60]})
+
+# Group by 'Category' and calculate the sum of 'Value'
+grouped_df = df.groupby('Category')['Value'].sum()
+
+# Display the grouped DataFrame
+print(grouped_df)
+
+Output:
+
+Category
+A    90
+B    120
+Name: Value, dtype: int64
+
+Explanation:
+df.groupby('Category')['Value'] groups the DataFrame by the 'Category' column and selects the 'Value' column.
+.sum() calculates the sum of the 'Value' column for each group.
+You can replace .sum() with .mean() to calculate the mean, or use other aggregation functions like .count(), .max(), or .min().
